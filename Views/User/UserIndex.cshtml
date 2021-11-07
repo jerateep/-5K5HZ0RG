@@ -1,0 +1,53 @@
+﻿@model IEnumerable<WebAppCore.Models.TBL_User>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table" id="tblUser">
+    <thead>
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.UserId)</th>
+            <th>@Html.DisplayNameFor(model => model.FirstName)</th>
+            <th>@Html.DisplayNameFor(model => model.LastName)</th>
+            <th>@Html.DisplayNameFor(model => model.IsActive)</th>
+            <th>@Html.DisplayNameFor(model => model.DepId)</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.UserId)</td>
+                <td>@Html.DisplayFor(modelItem => item.FirstName)</td>
+                <td>@Html.DisplayFor(modelItem => item.LastName)</td>
+                <td>@Html.DisplayFor(modelItem => item.IsActive)</td>
+                <td>@Html.DisplayFor(modelItem => item.Department.DepName)</td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new {  _id = item.UserId  }) |
+                    @Html.ActionLink("Delete", "Delete", new { _id = item.UserId })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#tblUser').DataTable();
+            if ('@ViewBag.Message' != "") {
+                swal.fire({
+                    title: 'Notification',
+                    text: '@ViewBag.Message',
+                    icon: 'info',
+                });
+            }
+        });
+    </script>
+}

@@ -1,0 +1,42 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+</div>
+<p>
+    @ViewBag.Message
+</p>
+<button type="button" id="btnAddNumber">Add Number</button>
+<div id="ShowNumber"></div>
+
+@section Scripts {
+
+    <script>
+        $(document).ready(function () {
+            $("#btnAddNumber").click(function () {
+                var num = $("#spnNumber").text();
+                AddNumber(num);
+            });
+        });
+
+        function AddNumber(num) {
+            $.ajax({
+                url: "/Home/GetNumber?_num=" + num,
+                type: "GET",
+                dataType: 'html',
+                contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+                success: function (obj) {
+                    $("#ShowNumber").html(obj);
+                },
+                error: function (xhr, status, error) {
+                    var err = eval("(" + xhr.responseText + ")");
+                    alert(err.Message);
+                }
+            });
+        }
+    </script>
+}
